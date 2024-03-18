@@ -2,12 +2,18 @@ import os
 from langchain.llms.bedrock import Bedrock
 from langchain.memory import ConversationBufferMemory
 from langchain.chains.conversation.base import ConversationChain
+import boto3
 from typing import Any
 
 
 def demo_chatbot() -> Bedrock:
+    bedrock_runtime = boto3.client(
+        service_name="bedrock-runtime",
+        region_name="us-east-1"
+    )
+
     llm = Bedrock(
-        credentials_profile_name="default",
+        client=bedrock_runtime,
         model_id="meta.llama2-70b-chat-v1",
         model_kwargs={
             "temperature": 0.5,
